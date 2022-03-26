@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  postfix:
+    build: ./postfix
+    hostname: mail.pedantry.org
+    volumes:
+      - mail:/var/mail
+      - postfix_spool:/var/spool/postfix
+    ports:
+      - 25:25/tcp
+      - 465:465/tcp
+      - 587:587/tcp
+  dovecot:
+    build: ./dovecot
+    hostname: mail.pedantry.org
+    volumes:
+      - mail:/var/mail
+      - ./etc/dovecot:/etc/dovecot:ro
+    ports:
+      - 110:110/tcp
+      - 143:143/tcp
+      - 993:993/tcp
+      - 995:995/tcp
+      - 4190:4190/tcp
+  opendkim:
+    build: ./opendkim
+    hostname: mail.pedantry.org
+    volumes:
+      - ./etc/opendkim:/etc/opendkim:ro
+  opendmarc:
+    build: ./opendmarc
+    hostname: mail.pedantry.org
+    volumes:
+      - ./etc/opendmarc:/etc/opendmarc:ro
+
+volumes:
+  mail:
+  postfix_spool:
