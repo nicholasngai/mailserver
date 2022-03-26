@@ -4,7 +4,9 @@ RUN apk add --no-cache dovecot \
     dovecot-lmtpd \
     dovecot-mysql \
     dovecot-pigeonhole-plugin \
-    dovecot-pop3d
+    dovecot-pop3d \
+    gnupg \
+    python3
 
 RUN adduser -u 5000 -h /nonexistent -DH vmail
 

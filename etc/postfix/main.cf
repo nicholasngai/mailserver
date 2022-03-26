@@ -93,6 +93,7 @@ mail_owner = postfix
 #
 #myhostname = host.domain.tld
 #myhostname = virtual.domain.tld
+myhostname = mail.pedantry.org
 
 # The mydomain parameter specifies the local internet domain name.
 # The default is to use $myhostname minus the first component.
@@ -100,6 +101,7 @@ mail_owner = postfix
 # parameters.
 #
 #mydomain = domain.tld
+mydomain = pedantry.org
 
 # SENDING MAIL
 # 
@@ -180,6 +182,7 @@ mail_owner = postfix
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain,
 #	mail.$mydomain, www.$mydomain, ftp.$mydomain
+mydestination = $myhostname, $mydomain, localhost
 
 # REJECTING MAIL FOR UNKNOWN LOCAL USERS
 #
@@ -421,7 +424,7 @@ unknown_local_recipient_reject_code = 550
 # Basically, the software tries user+foo and .forward+foo before
 # trying user and .forward.
 #
-#recipient_delimiter = +
+recipient_delimiter = +
 
 # DELIVERY TO MAILBOX
 #
@@ -676,3 +679,41 @@ readme_directory = /usr/share/doc/postfix/readme
 inet_protocols = ipv4
 meta_directory = /etc/postfix
 shlib_directory = /usr/lib/postfix
+
+# TLS configuration.
+smtpd_tls_cert_file = /etc/letsencrypt/live/mail.pedantry.org/fullchain.pem
+smtpd_tls_key_file = /etc/letsencrypt/live/mail.pedantry.org/privkey.pem
+smtpd_use_tls = yes
+
+# Mailbox config.
+mailbox_size_limit = 0
+
+# smtpd auth config.
+smtpd_helo_required = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = dovecot/auth
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = $myhostname
+
+# Virtual mailbox settings
+virtual_transport = lmtp:unix:dovecot/lmtp
+virtual_mailbox_domains = texthash:/etc/postfix/vhost
+virtual_mailbox_maps = texthash:/etc/postfix/vmailbox
+virtual_alias_maps = texthash:/etc/postfix/virtual
+
+# Milters
+milter_default_action = accept
+milter_connect_macros = j {daemon_name} v {if_name} _
+smtpd_milters = unix:opendkim/opendkim.sock unix:opendmarc/opendmarc.sock
+non_smtpd_milters = $smtpd_milters
+
+# Relay settings.
+relayhost = [smtp.mailgun.org]:587
+smtp_use_tls = yes
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = texthash:/etc/postfix/sasl_passwd
+smtp_sasl_security_options = noanonymous
+
+# Log to stdout.
+maillog_file = /dev/stdout

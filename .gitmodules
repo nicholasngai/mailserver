@@ -1,0 +1,3 @@
+[submodule "etc/dovecot/gpgit.py"]
+	path = etc/dovecot/gpgit.py
+	url = https://github.com/nicholasngai/gpgit.py
