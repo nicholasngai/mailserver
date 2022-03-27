@@ -94,7 +94,7 @@ $config['des_key'] = 'yNidNO0l6d6fQyrmWcnbjUFj';
 // PLUGINS
 // ----------------------------------
 // List of active plugins (in plugins/ directory)
-$config['plugins'] = ['archive', 'attachment_reminder', 'help', 'markasjunk', 'newmail_notifier'];
+$config['plugins'] = ['archive', 'attachment_reminder', 'help', 'managesieve', 'markasjunk', 'newmail_notifier'];
 
 // Make use of the built-in spell checker.
 $config['enable_spellcheck'] = true;
@@ -106,3 +106,5 @@ $config['enable_spellcheck'] = true;
 //  3 - on forward or reply to HTML message
 //  4 - always, except when replying to plain text message
 $config['htmleditor'] = 2;
+
+include 'config-managesieve.inc.php';
