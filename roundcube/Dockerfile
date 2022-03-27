@@ -4,6 +4,7 @@ ARG VERSION=1.5.2
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
+        gnupg \
         libicu-dev \
         libldap-dev \
         libmagickwand-dev \
@@ -33,6 +34,8 @@ RUN curl -Lo /roundcube.tar.gz https://github.com/roundcube/roundcubemail/releas
     && rm -rf /var/www/html \
     && mv /var/www/roundcubemail-$VERSION /var/www/html \
     && chown -R www-data:www-data /var/www/html
+
+RUN mkdir -p /var/lib/enigma && chown www-data:www-data /var/lib/enigma
 
 VOLUME /var/www/html/config
 

@@ -58,6 +58,7 @@ services:
     build: ./roundcube
     hostname: mail.pedantry.org
     volumes:
+      - roundcube_enigma:/var/lib/enigma
       - ./etc/roundcube:/var/www/html/config:ro
     ports:
       - 8080:80/tcp
@@ -76,6 +77,7 @@ volumes:
   mail:
   postfix_spool:
   mail_mysql:
+  roundcube_enigma:
   roundcube_mysql:
   spool_dovecot:
   spool_opendkim:
