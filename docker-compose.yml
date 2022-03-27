@@ -32,7 +32,7 @@ services:
       - 993:993/tcp
       - 995:995/tcp
       - 4190:4190/tcp
-  mysql:
+  mail_mysql:
     build: ./mariadb
     hostname: mail.pedantry.org
     environment:
@@ -41,7 +41,7 @@ services:
       MYSQL_PASSWORD: dovecot
       MYSQL_DATABASE: mail
     volumes:
-      - mysql:/var/lib/mysql
+      - mail_mysql:/var/lib/mysql
   opendkim:
     build: ./opendkim
     hostname: mail.pedantry.org
@@ -54,11 +54,29 @@ services:
     volumes:
       - spool_opendmarc:/var/spool/postfix/opendmarc
       - ./etc/opendmarc:/etc/opendmarc:ro
+  roundcube:
+    build: ./roundcube
+    hostname: mail.pedantry.org
+    volumes:
+      - ./etc/roundcube:/var/www/html/config:ro
+    ports:
+      - 8080:80/tcp
+  roundcube_mysql:
+    image: mariadb:focal
+    hostname: mail.pedantry.org
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_USER: roundcube
+      MYSQL_PASSWORD: roundcube
+      MYSQL_DATABASE: roundcube
+    volumes:
+      - roundcube_mysql:/var/lib/mysql
 
 volumes:
   mail:
   postfix_spool:
-  mysql:
+  mail_mysql:
+  roundcube_mysql:
   spool_dovecot:
   spool_opendkim:
   spool_opendmarc:
