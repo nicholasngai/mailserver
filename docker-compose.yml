@@ -58,6 +58,10 @@ services:
     ports:
       - 11333:11333/tcp
       - 127.0.0.1:11334:11334/tcp
+  rspamd_redis:
+    image: redis:6.2
+    volumes:
+      - rspamd_redis:/data
   roundcube:
     build: ./roundcube
     hostname: mail.pedantry.org
@@ -81,6 +85,7 @@ volumes:
   mail:
   postfix_spool:
   mail_mysql:
+  rspamd_redis:
   roundcube_enigma:
   roundcube_mysql:
   spool_dovecot:
