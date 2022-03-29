@@ -9,7 +9,7 @@ services:
       - postfix_spool:/var/spool/postfix
       - spool_dovecot:/var/spool/postfix/dovecot:ro
       - spool_opendkim:/var/spool/postfix/opendkim:ro
-      - spool_opendmarc:/var/spool/postfix/opendmarc:ro
+      - spool_rspamd:/var/spool/postfix/rspamd:ro
       - ./etc/postfix:/etc/postfix:ro
       - /etc/letsencrypt/live/mail.pedantry.org:/etc/letsencrypt/live/mail.pedantry.org:ro
       - /etc/letsencrypt/archive/mail.pedantry.org:/etc/letsencrypt/archive/mail.pedantry.org:ro
@@ -48,12 +48,16 @@ services:
     volumes:
       - spool_opendkim:/var/spool/postfix/opendkim
       - ./etc/opendkim:/etc/opendkim:ro
-  opendmarc:
-    build: ./opendmarc
+  rspamd:
+    build: ./rspamd
     hostname: mail.pedantry.org
     volumes:
-      - spool_opendmarc:/var/spool/postfix/opendmarc
-      - ./etc/opendmarc:/etc/opendmarc:ro
+      - spool_rspamd:/var/spool/postfix/rspamd
+      - ./etc/rspamd/local.d:/etc/rspamd/local.d:ro
+      - ./etc/rspamd/override.d:/etc/rspamd/override.d:ro
+    ports:
+      - 11333:11333/tcp
+      - 127.0.0.1:11334:11334/tcp
   roundcube:
     build: ./roundcube
     hostname: mail.pedantry.org
@@ -81,4 +85,4 @@ volumes:
   roundcube_mysql:
   spool_dovecot:
   spool_opendkim:
-  spool_opendmarc:
+  spool_rspamd:

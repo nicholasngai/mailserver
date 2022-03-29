@@ -705,7 +705,7 @@ virtual_alias_maps = texthash:/etc/postfix/virtual
 # Milters
 milter_default_action = accept
 milter_connect_macros = j {daemon_name} v {if_name} _
-smtpd_milters = unix:opendkim/opendkim.sock unix:opendmarc/opendmarc.sock
+smtpd_milters = unix:opendkim/opendkim.sock unix:rspamd/rspamd.sock
 non_smtpd_milters = $smtpd_milters
 
 # Relay settings.
