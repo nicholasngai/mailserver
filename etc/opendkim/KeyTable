@@ -1,3 +1,2 @@
-mail._domainkey.pedantry.org	pedantry.org:mail:/etc/opendkim/keys/pedantry.org/mail.private
 mail._domainkey.gradtrak.me	gradtrak.me:mail:/etc/opendkim/keys/gradtrak.me/mail.private
 mail._domainkey.ngai.me	ngai.me:mail:/etc/opendkim/keys/ngai.me/mail.private

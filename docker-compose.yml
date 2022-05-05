@@ -3,7 +3,7 @@ version: "3"
 services:
   postfix:
     build: ./postfix
-    hostname: mail.pedantry.org
+    hostname: mail.ngai.me
     volumes:
       - mail:/var/mail
       - postfix_spool:/var/spool/postfix
@@ -11,21 +11,21 @@ services:
       - spool_opendkim:/var/spool/postfix/opendkim:ro
       - spool_rspamd:/var/spool/postfix/rspamd:ro
       - ./etc/postfix:/etc/postfix:ro
-      - /etc/letsencrypt/live/mail.pedantry.org:/etc/letsencrypt/live/mail.pedantry.org:ro
-      - /etc/letsencrypt/archive/mail.pedantry.org:/etc/letsencrypt/archive/mail.pedantry.org:ro
+      - /etc/letsencrypt/live/mail.ngai.me:/etc/letsencrypt/live/mail.ngai.me:ro
+      - /etc/letsencrypt/archive/mail.ngai.me:/etc/letsencrypt/archive/mail.ngai.me:ro
     ports:
       - 25:25/tcp
       - 465:465/tcp
       - 587:587/tcp
   dovecot:
     build: ./dovecot
-    hostname: mail.pedantry.org
+    hostname: mail.ngai.me
     volumes:
       - mail:/var/mail
       - spool_dovecot:/var/spool/postfix/dovecot
       - ./etc/dovecot:/etc/dovecot:ro
-      - /etc/letsencrypt/live/mail.pedantry.org:/etc/letsencrypt/live/mail.pedantry.org:ro
-      - /etc/letsencrypt/archive/mail.pedantry.org:/etc/letsencrypt/archive/mail.pedantry.org:ro
+      - /etc/letsencrypt/live/mail.ngai.me:/etc/letsencrypt/live/mail.ngai.me:ro
+      - /etc/letsencrypt/archive/mail.ngai.me:/etc/letsencrypt/archive/mail.ngai.me:ro
     ports:
       - 110:110/tcp
       - 143:143/tcp
@@ -34,7 +34,7 @@ services:
       - 4190:4190/tcp
   mail_mysql:
     build: ./mariadb
-    hostname: mail.pedantry.org
+    hostname: mail.ngai.me
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       MYSQL_USER: dovecot
@@ -44,13 +44,13 @@ services:
       - mail_mysql:/var/lib/mysql
   opendkim:
     build: ./opendkim
-    hostname: mail.pedantry.org
+    hostname: mail.ngai.me
     volumes:
       - spool_opendkim:/var/spool/postfix/opendkim
       - ./etc/opendkim:/etc/opendkim:ro
   rspamd:
     build: ./rspamd
-    hostname: mail.pedantry.org
+    hostname: mail.ngai.me
     volumes:
       - spool_rspamd:/var/spool/postfix/rspamd
       - ./etc/rspamd/local.d:/etc/rspamd/local.d:ro
@@ -64,7 +64,7 @@ services:
       - rspamd_redis:/data
   roundcube:
     build: ./roundcube
-    hostname: mail.pedantry.org
+    hostname: mail.ngai.me
     volumes:
       - roundcube_enigma:/var/lib/enigma
       - ./etc/roundcube:/var/www/html/config:ro
@@ -72,7 +72,7 @@ services:
       - 8080:80/tcp
   roundcube_mysql:
     image: mariadb:focal
-    hostname: mail.pedantry.org
+    hostname: mail.ngai.me
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       MYSQL_USER: roundcube
