@@ -4,6 +4,7 @@ services:
   postfix:
     build: ./postfix
     hostname: mail.ngai.me
+    restart: always
     volumes:
       - mail:/var/mail
       - postfix_spool:/var/spool/postfix
@@ -20,6 +21,7 @@ services:
   dovecot:
     build: ./dovecot
     hostname: mail.ngai.me
+    restart: always
     volumes:
       - mail:/var/mail
       - spool_dovecot:/var/spool/postfix/dovecot
@@ -35,6 +37,7 @@ services:
   mail_mysql:
     build: ./mariadb
     hostname: mail.ngai.me
+    restart: always
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       MYSQL_USER: dovecot
@@ -45,12 +48,14 @@ services:
   opendkim:
     build: ./opendkim
     hostname: mail.ngai.me
+    restart: always
     volumes:
       - spool_opendkim:/var/spool/postfix/opendkim
       - ./etc/opendkim:/etc/opendkim:ro
   rspamd:
     build: ./rspamd
     hostname: mail.ngai.me
+    restart: always
     volumes:
       - spool_rspamd:/var/spool/postfix/rspamd
       - ./etc/rspamd/local.d:/etc/rspamd/local.d:ro
@@ -65,6 +70,7 @@ services:
   roundcube:
     build: ./roundcube
     hostname: mail.ngai.me
+    restart: always
     volumes:
       - roundcube_enigma:/var/lib/enigma
       - ./etc/roundcube:/var/www/html/config:ro
@@ -73,6 +79,7 @@ services:
   roundcube_mysql:
     image: mariadb:focal
     hostname: mail.ngai.me
+    restart: always
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       MYSQL_USER: roundcube
