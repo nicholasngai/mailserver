@@ -18,6 +18,10 @@ services:
       - 25:25/tcp
       - 465:465/tcp
       - 587:587/tcp
+    depends_on:
+      - dovecot
+      - opendkim
+      - rspamd
   dovecot:
     build: ./dovecot
     hostname: mail.ngai.me
@@ -34,6 +38,8 @@ services:
       - 993:993/tcp
       - 995:995/tcp
       - 4190:4190/tcp
+    depends_on:
+      - mail_mysql
   mail_mysql:
     build: ./mariadb
     hostname: mail.ngai.me
@@ -63,6 +69,8 @@ services:
     ports:
       - 11333:11333/tcp
       - 127.0.0.1:11334:11334/tcp
+    depends_on:
+      - rspamd_redis
   rspamd_redis:
     image: redis:6.2
     volumes:
@@ -76,6 +84,8 @@ services:
       - ./etc/roundcube:/var/www/html/config:ro
     ports:
       - 8080:80/tcp
+    depends_on:
+      - roundcube_mysql
   roundcube_mysql:
     image: mariadb:focal
     hostname: mail.ngai.me
