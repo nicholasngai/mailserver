@@ -6,7 +6,9 @@ RUN mkdir /run/opendkim
 
 COPY opendkim/entrypoint.sh /entrypoint.sh
 
-VOLUME /etc/opendkim
+COPY etc/opendkim /etc/opendkim/
+
+VOLUME /etc/opendkim/keys
 VOLUME /var/spool/postfix/opendkim
 
 CMD ["/entrypoint.sh"]

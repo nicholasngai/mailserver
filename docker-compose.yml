@@ -13,7 +13,7 @@ services:
       - spool_dovecot:/var/spool/postfix/dovecot:ro
       - spool_opendkim:/var/spool/postfix/opendkim:ro
       - spool_rspamd:/var/spool/postfix/rspamd:ro
-      - ./etc/postfix:/etc/postfix:ro
+      - ./etc/postfix/sasl_passwd:/etc/postfix/sasl_passwd:ro
       - /etc/letsencrypt/live/mail.ngai.me:/etc/letsencrypt/live/mail.ngai.me:ro
       - /etc/letsencrypt/archive/mail.ngai.me:/etc/letsencrypt/archive/mail.ngai.me:ro
     ports:
@@ -33,7 +33,6 @@ services:
     volumes:
       - mail:/var/mail
       - spool_dovecot:/var/spool/postfix/dovecot
-      - ./etc/dovecot:/etc/dovecot:ro
       - /etc/letsencrypt/live/mail.ngai.me:/etc/letsencrypt/live/mail.ngai.me:ro
       - /etc/letsencrypt/archive/mail.ngai.me:/etc/letsencrypt/archive/mail.ngai.me:ro
     ports:
@@ -65,7 +64,7 @@ services:
     restart: always
     volumes:
       - spool_opendkim:/var/spool/postfix/opendkim
-      - ./etc/opendkim:/etc/opendkim:ro
+      - ./etc/opendkim/keys:/etc/opendkim/keys:ro
   rspamd:
     build:
       context: .
@@ -74,8 +73,6 @@ services:
     restart: always
     volumes:
       - spool_rspamd:/var/spool/postfix/rspamd
-      - ./etc/rspamd/local.d:/etc/rspamd/local.d:ro
-      - ./etc/rspamd/override.d:/etc/rspamd/override.d:ro
     ports:
       - 11333:11333/tcp
       - 127.0.0.1:11334:11334/tcp
@@ -93,7 +90,6 @@ services:
     restart: always
     volumes:
       - roundcube_enigma:/var/lib/enigma
-      - ./etc/roundcube:/var/www/html/config:ro
     ports:
       - 8080:80/tcp
     depends_on:

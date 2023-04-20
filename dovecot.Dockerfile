@@ -10,7 +10,8 @@ RUN apk add --no-cache dovecot \
 
 RUN adduser -u 5000 -h /nonexistent -DH vmail
 
-VOLUME /etc/postfix
+COPY etc/dovecot /etc/dovecot/
+
 VOLUME /etc/letsencrypt
 VOLUME /var/mail
 VOLUME /var/spool/postfix/dovecot

@@ -37,6 +37,6 @@ RUN curl -Lo /roundcube.tar.gz https://github.com/roundcube/roundcubemail/releas
 
 RUN mkdir -p /var/lib/enigma && chown www-data:www-data /var/lib/enigma
 
-VOLUME /var/www/html/config
+COPY etc/roundcube /var/www/html/config/
 
 EXPOSE 80/tcp
