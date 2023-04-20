@@ -2,7 +2,9 @@ version: "3"
 
 services:
   postfix:
-    build: ./postfix
+    build:
+      context: .
+      dockerfile: ./postfix.Dockerfile
     hostname: mail.ngai.me
     restart: always
     volumes:
@@ -23,7 +25,9 @@ services:
       - opendkim
       - rspamd
   dovecot:
-    build: ./dovecot
+    build:
+      context: .
+      dockerfile: ./dovecot.Dockerfile
     hostname: mail.ngai.me
     restart: always
     volumes:
@@ -41,7 +45,9 @@ services:
     depends_on:
       - mail_mysql
   mail_mysql:
-    build: ./mariadb
+    build:
+      context: .
+      dockerfile: ./mariadb.Dockerfile
     hostname: mail.ngai.me
     restart: always
     environment:
@@ -52,14 +58,18 @@ services:
     volumes:
       - mail_mysql:/var/lib/mysql
   opendkim:
-    build: ./opendkim
+    build:
+      context: .
+      dockerfile: ./opendkim.Dockerfile
     hostname: mail.ngai.me
     restart: always
     volumes:
       - spool_opendkim:/var/spool/postfix/opendkim
       - ./etc/opendkim:/etc/opendkim:ro
   rspamd:
-    build: ./rspamd
+    build:
+      context: .
+      dockerfile: ./rspamd.Dockerfile
     hostname: mail.ngai.me
     restart: always
     volumes:
@@ -76,7 +86,9 @@ services:
     volumes:
       - rspamd_redis:/data
   roundcube:
-    build: ./roundcube
+    build:
+      context: .
+      dockerfile: ./roundcube.Dockerfile
     hostname: mail.ngai.me
     restart: always
     volumes:

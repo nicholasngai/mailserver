@@ -4,7 +4,7 @@ RUN apk add --no-cache opendkim rsyslog
 
 RUN mkdir /run/opendkim
 
-COPY entrypoint.sh /entrypoint.sh
+COPY opendkim/entrypoint.sh /entrypoint.sh
 
 VOLUME /etc/opendkim
 VOLUME /var/spool/postfix/opendkim
