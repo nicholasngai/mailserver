@@ -73,36 +73,11 @@ services:
     restart: always
     volumes:
       - spool_opendmarc:/var/spool/postfix/opendmarc
-  roundcube:
-    build:
-      context: .
-      dockerfile: ./roundcube.Dockerfile
-    hostname: vm.ngai.me
-    restart: always
-    volumes:
-      - roundcube_enigma:/var/lib/enigma
-    ports:
-      - 8080:80/tcp
-    depends_on:
-      - roundcube_mysql
-  roundcube_mysql:
-    image: mariadb:focal
-    hostname: vm.ngai.me
-    restart: always
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-      MYSQL_USER: roundcube
-      MYSQL_PASSWORD: roundcube
-      MYSQL_DATABASE: roundcube
-    volumes:
-      - roundcube_mysql:/var/lib/mysql
 
 volumes:
   mail:
   postfix_spool:
   mail_mysql:
-  roundcube_enigma:
-  roundcube_mysql:
   spool_dovecot:
   spool_opendkim:
   spool_opendmarc:
