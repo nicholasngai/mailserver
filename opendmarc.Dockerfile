@@ -6,6 +6,8 @@ RUN mkdir /run/opendmarc && ln -s /etc/opendmarc/opendmarc.conf /etc/opendmarc.c
 
 COPY opendmarc/entrypoint.sh /entrypoint.sh
 
+COPY etc/opendmarc /etc/opendmarc/
+
 VOLUME /var/spool/postfix/opendmarc
 
 CMD ["/entrypoint.sh"]

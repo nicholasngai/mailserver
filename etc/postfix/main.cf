@@ -93,7 +93,7 @@ mail_owner = postfix
 #
 #myhostname = host.domain.tld
 #myhostname = virtual.domain.tld
-myhostname = mail.ngai.me
+myhostname = vm.ngai.me
 
 # The mydomain parameter specifies the local internet domain name.
 # The default is to use $myhostname minus the first component.
@@ -101,7 +101,7 @@ myhostname = mail.ngai.me
 # parameters.
 #
 #mydomain = domain.tld
-mydomain = mail.ngai.me
+mydomain = vm.ngai.me
 
 # SENDING MAIL
 # 
@@ -681,8 +681,8 @@ meta_directory = /etc/postfix
 shlib_directory = /usr/lib/postfix
 
 # TLS configuration.
-smtpd_tls_cert_file = /etc/letsencrypt/live/mail.ngai.me/fullchain.pem
-smtpd_tls_key_file = /etc/letsencrypt/live/mail.ngai.me/privkey.pem
+smtpd_tls_cert_file = /etc/letsencrypt/live/vm.ngai.me/fullchain.pem
+smtpd_tls_key_file = /etc/letsencrypt/live/vm.ngai.me/privkey.pem
 smtpd_use_tls = yes
 
 # Mailbox config.
