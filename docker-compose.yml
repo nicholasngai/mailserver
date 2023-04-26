@@ -12,7 +12,7 @@ services:
       - postfix_spool:/var/spool/postfix
       - spool_dovecot:/var/spool/postfix/dovecot:ro
       - spool_opendkim:/var/spool/postfix/opendkim:ro
-      - spool_rspamd:/var/spool/postfix/rspamd:ro
+      - spool_opendmarc:/var/spool/postfix/opendmarc:ro
       - ./etc/postfix/sasl_passwd:/etc/postfix/sasl_passwd:ro
       - /etc/letsencrypt/live/mail.ngai.me:/etc/letsencrypt/live/mail.ngai.me:ro
       - /etc/letsencrypt/archive/mail.ngai.me:/etc/letsencrypt/archive/mail.ngai.me:ro
@@ -23,7 +23,7 @@ services:
     depends_on:
       - dovecot
       - opendkim
-      - rspamd
+      - opendmarc
   dovecot:
     build:
       context: .
@@ -65,23 +65,14 @@ services:
     volumes:
       - spool_opendkim:/var/spool/postfix/opendkim
       - ./etc/opendkim/keys:/etc/opendkim/keys:ro
-  rspamd:
+  opendmarc:
     build:
       context: .
-      dockerfile: ./rspamd.Dockerfile
+      dockerfile: ./opendmarc.Dockerfile
     hostname: mail.ngai.me
     restart: always
     volumes:
-      - spool_rspamd:/var/spool/postfix/rspamd
-    ports:
-      - 11333:11333/tcp
-      - 127.0.0.1:11334:11334/tcp
-    depends_on:
-      - rspamd_redis
-  rspamd_redis:
-    image: redis:6.2
-    volumes:
-      - rspamd_redis:/data
+      - spool_opendmarc:/var/spool/postfix/opendmarc
   roundcube:
     build:
       context: .
@@ -110,9 +101,8 @@ volumes:
   mail:
   postfix_spool:
   mail_mysql:
-  rspamd_redis:
   roundcube_enigma:
   roundcube_mysql:
   spool_dovecot:
   spool_opendkim:
-  spool_rspamd:
+  spool_opendmarc:

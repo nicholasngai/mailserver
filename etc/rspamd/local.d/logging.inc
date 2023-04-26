@@ -1,1 +1,0 @@
-filename = "/dev/stdout";
