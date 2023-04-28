@@ -74,7 +74,6 @@ services:
     volumes:
       - spool_rspamd:/var/spool/postfix/rspamd
     ports:
-      - 11333:11333/tcp
       - 127.0.0.1:11334:11334/tcp
     depends_on:
       - rspamd_redis
@@ -91,7 +90,7 @@ services:
     volumes:
       - roundcube_enigma:/var/lib/enigma
     ports:
-      - 8080:80/tcp
+      - 127.0.0.1:25080:80/tcp
     depends_on:
       - roundcube_mysql
   roundcube_mysql:
