@@ -685,6 +685,9 @@ smtpd_tls_cert_file = /etc/letsencrypt/live/mail.ngai.me/fullchain.pem
 smtpd_tls_key_file = /etc/letsencrypt/live/mail.ngai.me/privkey.pem
 smtpd_use_tls = yes
 
+# Message config.
+message_size_limit = 52428800
+
 # Mailbox config.
 mailbox_size_limit = 0
 
