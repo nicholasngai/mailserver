@@ -44,9 +44,7 @@ services:
     depends_on:
       - mail_mysql
   mail_mysql:
-    build:
-      context: .
-      dockerfile: ./mariadb.Dockerfile
+    image: mariadb:focal
     hostname: mail.ngai.me
     restart: always
     environment:
@@ -56,6 +54,7 @@ services:
       MYSQL_DATABASE: mail
     volumes:
       - mail_mysql:/var/lib/mysql
+      - ./mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
   opendkim:
     build:
       context: .
