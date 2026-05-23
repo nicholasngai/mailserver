@@ -33,6 +33,7 @@ services:
     volumes:
       - mail:/var/mail
       - spool_dovecot:/var/spool/postfix/dovecot
+      - mail_mysql_sock:/run/mysqld
       - /etc/letsencrypt/live/mail.ngai.me:/etc/letsencrypt/live/mail.ngai.me:ro
       - /etc/letsencrypt/archive/mail.ngai.me:/etc/letsencrypt/archive/mail.ngai.me:ro
     ports:
@@ -54,6 +55,7 @@ services:
       MYSQL_DATABASE: mail
     volumes:
       - mail_mysql:/var/lib/mysql
+      - mail_mysql_sock:/run/mysqld
       - ./mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
   opendkim:
     build:
@@ -108,6 +110,7 @@ volumes:
   mail:
   postfix_spool:
   mail_mysql:
+  mail_mysql_sock:
   rspamd_redis:
   roundcube_enigma:
   roundcube_mysql:
