@@ -1,14 +1,18 @@
-FROM alpine:3.15
+FROM debian:13-slim
 
-RUN apk add --no-cache dovecot \
-    dovecot-lmtpd \
-    dovecot-mysql \
-    dovecot-pigeonhole-plugin \
-    dovecot-pop3d \
-    gnupg \
-    python3
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+        dovecot-imapd \
+        dovecot-lmtpd \
+        dovecot-managesieved \
+        dovecot-mysql \
+        dovecot-sieve \
+        dovecot-pop3d \
+        gnupg \
+        python3 \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN adduser -u 5000 -h /nonexistent -DH vmail
+RUN adduser --system --uid 5000 --group vmail
 
 COPY etc/dovecot /etc/dovecot/
 
